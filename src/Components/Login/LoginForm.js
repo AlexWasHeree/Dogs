@@ -7,25 +7,26 @@ import Input from '../Forms/Input';
 const LoginForm = () => {
   const username = useForm();
   const password = useForm();
-  console.log(username);
-  console.log(password);
 
   function handleSubmit(event) {
     event.preventDefault();
-    fetch('https://dogsapi.origamid.dev/json/jwt-auth/v1/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(),
-    })
-      .then((response) => {
-        console.log(response);
-        return response.json({ username, password });
+
+    if (username.validate() && password.validate()) {
+      fetch('https://dogsapi.origamid.dev/json/jwt-auth/v1/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(),
       })
-      .then((json) => {
-        console.log(json);
-      });
+        .then((response) => {
+          console.log(response);
+          return response.json({ username, password });
+        })
+        .then((json) => {
+          console.log(json);
+        });
+    }
   }
 
   return (
