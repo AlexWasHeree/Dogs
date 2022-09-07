@@ -29,7 +29,6 @@ export const UserStorage = ({ children }) => {
     const json = await response.json();
     setData(json);
     setLogin(true);
-    console.log(json);
   }
 
   async function userLogin(username, password) {
@@ -43,14 +42,15 @@ export const UserStorage = ({ children }) => {
       window.localStorage.setItem('token', token);
       await getUser(token);
       navigate('/conta');
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      setError(err.message);
       setLogin(false);
     } finally {
       setLoading(false);
     }
   }
 
+  //loga automaticamente caso o usuario ja tenha logado com uma conta na mesma maquina
   React.useEffect(() => {
     async function autologin() {
       const token = window.localStorage.getItem('token');
@@ -62,11 +62,13 @@ export const UserStorage = ({ children }) => {
           const response = await fetch(url, options);
           if (!response.ok) throw new Error('Token inválido');
           await getUser(token);
-        } catch (error) {
+        } catch (err) {
           userLogout();
         } finally {
           setLoading(false);
         }
+      } else {
+        setLogin(false);
       }
     }
     autologin();
