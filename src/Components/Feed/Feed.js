@@ -5,12 +5,12 @@ import FeedPhotos from './FeedPhotos';
 const Feed = ({ user }) => {
   const [modalPhoto, setModalPhoto] = React.useState(null);
   const [pages, setPages] = React.useState([1]);
-  const [infinity, setInfinity] = React.useState(true);
+  const [infinite, setInfinite] = React.useState(true);
 
   React.useEffect(() => {
     let wait = false;
-    function infinityScroll() {
-      if (infinity) {
+    function infiniteScroll() {
+      if (infinite) {
         const scroll = window.scrollY;
         const height = document.body.offsetHeight - window.innerHeight;
         if (scroll > height * 0.75 && !wait) {
@@ -23,13 +23,13 @@ const Feed = ({ user }) => {
       }
     }
 
-    window.addEventListener('wheel', infinityScroll);
-    window.addEventListener('scroll', infinityScroll);
+    window.addEventListener('wheel', infiniteScroll);
+    window.addEventListener('scroll', infiniteScroll);
     return () => {
-      window.removeEventListener('wheel', infinityScroll);
-      window.removeEventListener('scroll', infinityScroll);
+      window.removeEventListener('wheel', infiniteScroll);
+      window.removeEventListener('scroll', infiniteScroll);
     };
-  }, [infinity]);
+  }, [infinite]);
 
   return (
     <div>
@@ -42,7 +42,7 @@ const Feed = ({ user }) => {
           user={user}
           page={page}
           setModalPhoto={setModalPhoto}
-          setInfinity={setInfinity}
+          setInfinite={setInfinite}
         />
       ))}
     </div>
